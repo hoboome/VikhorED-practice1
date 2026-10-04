@@ -15,3 +15,5 @@
 тестовых архивов `fixtures/build_fixtures.py`, скрипт `os_scripts/check_vfs.sh`.
 
 Этап 4: `ls [-l] [-a]`, `cd`, `history [-c] [N]`, `tac`, `clear`.
+
+Этап 5: `chown [-R] [-v] ВЛАДЕЛЕЦ[:ГРУППА] ФАЙЛ...` (только в памяти).

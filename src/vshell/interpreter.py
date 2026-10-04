@@ -6,6 +6,7 @@ from .errors import CommandError
 from .lexer import split_command
 from .memfs import MemoryFS
 from .navigation import NavigationCommands
+from .ownership import OwnershipCommands
 from .session import SessionCommands
 from .textutils import TextCommands
 
@@ -14,7 +15,8 @@ HOST = "vshell"
 __all__ = ["CommandError", "Interpreter"]
 
 
-class Interpreter(NavigationCommands, TextCommands, SessionCommands):
+class Interpreter(NavigationCommands, TextCommands, OwnershipCommands,
+                  SessionCommands):
     """Выполняет строки ввода и выводит результат в ``Output``.
 
     Команда ``name`` реализуется методом ``cmd_name(self, args)``
