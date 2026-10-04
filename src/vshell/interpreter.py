@@ -3,6 +3,7 @@
 import getpass
 
 from .lexer import split_command
+from .memfs import MemoryFS
 
 HOST = "vshell"
 EXIT_MAX_ARGS = 1
@@ -18,11 +19,11 @@ class Interpreter:
     Команда ``name`` реализуется методом ``cmd_name(self, args)``.
     """
 
-    def __init__(self, output, vfs_name="empty", user=None):
-        """Связать интерпретатор с приёмником вывода ``output``."""
+    def __init__(self, output, fs=None, user=None):
+        """Связать интерпретатор с выводом ``output`` и VFS ``fs``."""
         self.output = output
-        self.vfs_name = vfs_name
         self.user = user or getpass.getuser()
+        self.fs = fs or MemoryFS(owner=self.user)
         self.cwd = "/"
         self.running = True
 
@@ -74,3 +75,13 @@ class Interpreter:
             code = int(args[0])
         self.running = False
         self.output.shutdown(code)
+
+    def cmd_mount(self, args):
+        """mount — служебная команда: сведения о подключённой VFS."""
+        if args:
+            raise CommandError("mount: only listing is supported")
+        dirs, files, size = self.fs.statistics()
+        source = self.fs.source or "memory"
+        self.output.echo(
+            f"{source} on / type zipfs (in-memory) "
+            f"[{self.fs.name}: {dirs} dirs, {files} files, {size} bytes]")

@@ -9,3 +9,7 @@ dist/
 .vscode/
 .idea/
 .DS_Store
+
+# тестовые архивы VFS собираются скриптом, в репозиторий не попадают
+fixtures/out/
+*.zip
