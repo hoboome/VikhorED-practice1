@@ -59,12 +59,12 @@ class StartupTests(unittest.TestCase):
     def test_dialog_and_skipping(self):
         """Ввод виден, ошибочные строки пропускаются."""
         terminal, stream = make_terminal()
-        path = self.script("# comment\nls a\nbad\n\ncd b\n")
+        path = self.script("# comment\nls\nbad\n\ncd /\n")
         self.assertEqual(run_startup(terminal, path), [3])
         text = stream.getvalue()
-        self.assertIn("lena@vshell:/$ ls a", text)
+        self.assertIn("lena@vshell:/$ ls", text)
         self.assertIn("bad: command not found", text)
-        self.assertIn("lena@vshell:/$ cd b", text)
+        self.assertIn("lena@vshell:/$ cd /", text)
 
     def test_exit_stops_script(self):
         """exit останавливает скрипт."""
