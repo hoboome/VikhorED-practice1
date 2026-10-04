@@ -23,6 +23,7 @@ def prepare_fs(settings, user):
 def open_terminal(settings, fs):
     """Создать окно или консольный терминал."""
     def factory(output):
+        """Создать интерпретатор для приёмника вывода ``output``."""
         return Interpreter(output, fs)
 
     if settings.console:
