@@ -41,7 +41,6 @@ class TerminalWindow(Output):
         self.history_index = None
         self.shell = interpreter_factory(self)
         self._bind_keys()
-        self.show_prompt()
 
     def _bind_keys(self):
         """Назначить обработчики клавиш."""
@@ -101,15 +100,15 @@ class TerminalWindow(Output):
         self.text.insert(tk.END, "\n")
         self.history_index = None
         self.run_line(line, echo=False)
+        self.show_prompt()
         return "break"
 
     def run_line(self, line, echo=True):
         """Выполнить строку; при ``echo`` сначала показать её как ввод."""
-        if echo:
+        if echo and self.alive:
+            self.text.insert(tk.END, self.shell.prompt(), "prompt")
             self.text.insert(tk.END, line + "\n", "cmd")
-        ok = self.shell.execute(line)
-        self.show_prompt()
-        return ok
+        return self.shell.execute(line)
 
     def browse(self, step):
         """Листать историю команд стрелками."""
@@ -140,5 +139,6 @@ class TerminalWindow(Output):
     def mainloop(self):
         """Запустить главный цикл и вернуть код завершения."""
         if self.alive:
+            self.show_prompt()
             self.root.mainloop()
         return self.exit_code
