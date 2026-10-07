@@ -5,15 +5,16 @@ import unittest
 from vshell.interpreter import Interpreter
 from vshell.io import BufferOutput
 from vshell.memfs import MemoryFS
+from fixture_case import FixtureCase
 
 PASSWD = b"root:x:0:0::/root:/bin/sh\nlena:x:1000:1000::/home/lena:/bin/sh\n"
 GROUP = b"root:x:0:\nlena:x:1000:\nstaff:x:50:lena\n"
 
 
-class ChownTests(unittest.TestCase):
+class ChownTests(FixtureCase):
     """Смена владельца и группы в памяти."""
 
-    def setUp(self):
+    def prepare(self):
         """VFS с пользователями root, lena и группой staff."""
         fs = MemoryFS(owner="root")
         fs.add_file("/etc/passwd", PASSWD)

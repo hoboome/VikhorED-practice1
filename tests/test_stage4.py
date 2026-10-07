@@ -5,6 +5,7 @@ import unittest
 from vshell.interpreter import Interpreter
 from vshell.io import BufferOutput
 from vshell.memfs import MemoryFS
+from fixture_case import FixtureCase
 
 
 def sample_fs():
@@ -18,10 +19,10 @@ def sample_fs():
     return fs
 
 
-class CommandTestCase(unittest.TestCase):
+class CommandTestCase(FixtureCase):
     """Базовый класс с интерпретатором над тестовой VFS."""
 
-    def setUp(self):
+    def prepare(self):
         """Интерпретатор и буферный вывод."""
         self.out = BufferOutput()
         self.shell = Interpreter(self.out, sample_fs(), user="lena")

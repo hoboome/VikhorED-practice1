@@ -5,9 +5,10 @@ import unittest
 from vshell.interpreter import Interpreter
 from vshell.io import BufferOutput
 from vshell.lexer import split_command, tokenize
+from fixture_case import FixtureCase
 
 
-class LexerTests(unittest.TestCase):
+class LexerTests(FixtureCase):
     """Разбор строки по пробелам."""
 
     def test_split_by_spaces(self):
@@ -23,10 +24,10 @@ class LexerTests(unittest.TestCase):
         self.assertEqual(split_command("   "), (None, []))
 
 
-class PrototypeTests(unittest.TestCase):
+class PrototypeTests(FixtureCase):
     """Поведение интерпретатора на первом этапе."""
 
-    def setUp(self):
+    def prepare(self):
         """Интерпретатор с буферным выводом."""
         self.out = BufferOutput()
         self.shell = Interpreter(self.out, user="lena")

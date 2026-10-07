@@ -8,12 +8,13 @@ import zipfile
 from vshell.interpreter import Interpreter
 from vshell.io import BufferOutput
 from vshell.memfs import FsError, MemoryFS, VfsLoadError, load_zip
+from fixture_case import FixtureCase
 
 
-class ZipTestCase(unittest.TestCase):
+class ZipTestCase(FixtureCase):
     """Базовый класс: создание архивов во временном каталоге."""
 
-    def setUp(self):
+    def prepare(self):
         """Временный каталог для архивов."""
         self.folder = tempfile.TemporaryDirectory()
         self.addCleanup(self.folder.cleanup)
@@ -69,10 +70,10 @@ class LoadTests(ZipTestCase):
                 load_zip(path)
 
 
-class PathTests(unittest.TestCase):
+class PathTests(FixtureCase):
     """Разрешение путей."""
 
-    def setUp(self):
+    def prepare(self):
         """Небольшая VFS."""
         self.fs = MemoryFS()
         self.fs.add_file("/home/lena/a.txt", b"a")
